@@ -1,0 +1,1 @@
+export { VoidNote } from "./VoidNote";
