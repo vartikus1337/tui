@@ -1,9 +1,12 @@
 import SelectInput from "ink-select-input";
 import { useView, type View } from "../Entities/View";
+import { usePkgsFile } from "@/Hooks/usePkgsFile";
 
 export const StartView = () => {
   const { changeView } = useView();
+  usePkgsFile();
 
+  // TODO: Del
   const items: { label: string; value: View }[] = [
     {
       label: "Предустановка",

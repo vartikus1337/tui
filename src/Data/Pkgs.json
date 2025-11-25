@@ -1,0 +1,30 @@
+{
+	"aurHelper": "paru",
+	"PreInstallPkgs": [],
+	"NiriPkgs": ["fuzzel", "alacritty", "swaybg"],
+	"SoundPkgs": [
+		"alsa-firmware",
+		"alsa-plugins",
+		"pavucontrol",
+		"pipewire-pulse",
+		"wireplumber",
+		"pipewire-alsa",
+		"rtkit"
+	],
+	"UtilsPkgs": [
+		"btop",
+		"micro",
+		{
+			"name": "wl-clipboard",
+			"description": "for micro"
+		},
+		{
+			"name": "visual-studio-code-bin",
+			"aur": true
+		},
+		{
+			"name": "rxfetch",
+			"aur": true
+		}
+	]
+}
