@@ -25,9 +25,9 @@
     "noUnusedParameters": false,
     "noPropertyAccessFromIndexSignature": false,
     "paths": {
-      "@ASCII/*": [
-        "./src/ASCII/*"
-      ]
+      "@/*": [
+        "./src/*"
+      ],
     }
   }
 }

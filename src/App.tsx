@@ -1,4 +1,4 @@
-import { VoidNote } from "@ASCII/VoidNote";
+import { VoidNote } from "@/ASCII/VoidNote";
 import { StartView } from "./Views/StartView";
 import { useView, ViewProvider } from "./Entities/View";
 import { PreInstallView } from "./Views/PreInstallView";
