@@ -1,32 +1,21 @@
 import SelectInput from "ink-select-input";
-import { useView, type View } from "../Entities/View";
-import { usePkgsFile } from "@/Hooks/usePkgsFile";
+import { usePkgsFile, useView } from "@/Contexts";
+import type { View } from "@/Data/Views";
 
 export const StartView = () => {
   const { changeView } = useView();
-  usePkgsFile();
+  const { data } = usePkgsFile();
 
-  // TODO: Del
-  const items: { label: string; value: View }[] = [
-    {
-      label: "Предустановка",
-      value: "Pre",
-    },
-    {
-      label: "Niri",
-      value: "Niri",
-    },
-    {
-      label: "Audio utils",
-      value: "Audio",
-    },
-    {
-      label: "Utils apps",
-      value: "Utils",
-    },
-  ];
+  const namesViewToItems = () =>
+    Object.keys(data).map((name) => Object({ label: name, value: name })) as {
+      label: string;
+      value: View;
+    }[];
 
   return (
-    <SelectInput items={items} onSelect={(item) => changeView(item.value)} />
+    <SelectInput
+      items={namesViewToItems()}
+      onSelect={(v) => changeView(v.value)}
+    />
   );
 };

@@ -1,16 +1,15 @@
+import type { View } from "@/Data/Views";
 import { createContext, type ReactNode, useState, useContext } from "react";
 
-export type View = "Start" | "Pre" | "Niri" | "Audio" | "Utils";
-
 export interface ViewContext {
-  /** По умолчанию `Start` */
   view: View;
   changeView: (view: View) => void;
 }
+
 export const ViewContext = createContext<ViewContext | undefined>(undefined);
 
 export const ViewProvider = ({ children }: { children: ReactNode }) => {
-  const [view, setView] = useState<View>("Start");
+  const [view, setView] = useState<View>("start");
 
   const changeView = (newView: View) => setView(newView);
 

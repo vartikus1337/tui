@@ -1,16 +1,15 @@
 import { VoidNote } from "@/ASCII/VoidNote";
-import { StartView } from "./Views/StartView";
-import { useView, ViewProvider } from "./Entities/View";
-import { PreInstallView } from "./Views/PreInstallView";
 import { Box } from "ink";
+import { PkgsProvider, ViewProvider, useView } from "./Contexts";
+import { AurHelperView, StartView } from "./Views";
 
 export const App = () => {
   return (
-    // <>
-    <ViewProvider>
-      <AppContent />
-    </ViewProvider>
-    // </>
+    <PkgsProvider>
+      <ViewProvider>
+        <AppContent />
+      </ViewProvider>
+    </PkgsProvider>
   );
 };
 
@@ -27,7 +26,7 @@ const AppContent = () => {
         alignItems="center"
       >
         <VoidNote />
-        {view === "Pre" ? <PreInstallView /> : <StartView />}
+        {view === "aurHelper" ? <AurHelperView /> : <StartView />}
       </Box>
     </Box>
   );
