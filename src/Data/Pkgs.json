@@ -1,6 +1,5 @@
 {
 	"aurHelper": "paru",
-	"PreInstallPkgs": [],
 	"NiriPkgs": ["fuzzel", "alacritty", "swaybg"],
 	"SoundPkgs": [
 		"alsa-firmware",

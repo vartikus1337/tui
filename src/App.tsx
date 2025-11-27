@@ -2,6 +2,7 @@ import { VoidNote } from "@/ASCII/VoidNote";
 import { Box } from "ink";
 import { PkgsProvider, ViewProvider, useView } from "./Contexts";
 import { AurHelperView, StartView } from "./Views";
+import { NiriView } from "./Views/NiriView";
 
 export const App = () => {
   return (
@@ -26,7 +27,13 @@ const AppContent = () => {
         alignItems="center"
       >
         <VoidNote />
-        {view === "aurHelper" ? <AurHelperView /> : <StartView />}
+        {view === "aurHelper" ? (
+          <AurHelperView />
+        ) : view === "NiriPkgs" ? (
+          <NiriView />
+        ) : (
+          <StartView />
+        )}
       </Box>
     </Box>
   );

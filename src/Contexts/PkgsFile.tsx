@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 
 import pkgs from "@/Data/Pkgs.json";
 
-type PackageItem =
+export type PackageItem =
   | string
   | { name: string; description?: string; aur?: boolean; disabled?: boolean };
 
