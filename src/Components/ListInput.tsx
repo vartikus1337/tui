@@ -14,20 +14,21 @@ import {
   type ReactNode,
 } from "react";
 
-export interface List {
+export interface ListInput {
   children: ReactNode;
   onExit?: () => void;
 }
 
-interface ListContext {
+interface ListInputContext {
   activeIndex: number;
   isTabKey: boolean;
   isEnterKey: boolean;
+  clearLastKey: () => void;
 }
 
-const ListContext = createContext<ListContext | undefined>(undefined);
+const ListInputContext = createContext<ListInputContext | undefined>(undefined);
 
-export const List: FC<List> = ({ children, onExit }) => {
+export const ListInput: FC<ListInput> = ({ children, onExit }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [lastKey, setLastKey] = useState<"none" | "tab" | "enter">("none");
 
@@ -37,9 +38,12 @@ export const List: FC<List> = ({ children, onExit }) => {
 
   const renderedChildren = childArray.map((child, i) =>
     isValidElement(child)
-      ? cloneElement(child as ReactElement<ComponentProps<typeof ListItem>>, {
-          index: i,
-        })
+      ? cloneElement(
+          child as ReactElement<ComponentProps<typeof ListInputItem>>,
+          {
+            index: i,
+          },
+        )
       : child,
   );
 
@@ -73,51 +77,68 @@ export const List: FC<List> = ({ children, onExit }) => {
     setLastKey("none");
   });
 
+  const clearLastKey = () => setLastKey("none");
+
   return (
-    <ListContext.Provider value={{ activeIndex, isTabKey, isEnterKey }}>
+    <ListInputContext.Provider
+      value={{ activeIndex, isTabKey, isEnterKey, clearLastKey }}
+    >
       <Box display="flex" flexDirection="column">
         {renderedChildren}
         {onExit && (
-          <ListItem index={lastIndex} onEnter={() => onExit?.()}>
+          <ListInputItem index={lastIndex} onEnter={() => onExit?.()}>
             Back
-          </ListItem>
+          </ListInputItem>
         )}
       </Box>
-    </ListContext.Provider>
+    </ListInputContext.Provider>
   );
 };
 
-export const useListContext = (): ListContext => {
-  const ctx = useContext(ListContext);
+export const useListInputContext = (): ListInputContext => {
+  const ctx = useContext(ListInputContext);
   if (!ctx) throw new Error("useListContext must be used within a List");
   return ctx;
 };
 
-export const ListItem: FC<{
+export const ListInputItem: FC<{
   /** Label */
   children: ReactNode;
   index?: number;
   onTabKey?: () => void;
   onEnter?: () => void;
-  onSelected?: boolean;
-}> = ({ children, index, onTabKey, onEnter }) => {
-  const { activeIndex, isTabKey, isEnterKey } = useListContext();
+  disabled?: boolean;
+}> = ({ children, index, onTabKey, onEnter, disabled }) => {
+  const { activeIndex, isTabKey, isEnterKey, clearLastKey } =
+    useListInputContext();
 
   useEffect(() => {
     if (activeIndex !== index) return;
     if (isEnterKey) {
       onEnter?.();
+      clearLastKey();
     } else if (isTabKey) {
       onTabKey?.();
+      clearLastKey();
     }
-  }, [activeIndex, isEnterKey, isTabKey, index, onEnter, onTabKey]);
+  }, [
+    activeIndex,
+    isEnterKey,
+    isTabKey,
+    index,
+    onEnter,
+    onTabKey,
+    clearLastKey,
+  ]);
 
   return (
     <Box key={index} display="flex" width={"30%"} gap={1}>
       {/* Indicator */}
       <Text>{activeIndex === index ? figures.pointer : ""}</Text>
       <Box marginLeft={activeIndex !== index ? 1 : 0}>
-        <Text color={activeIndex === index ? "blue" : undefined}>
+        <Text
+          color={disabled ? "gray" : activeIndex === index ? "blue" : undefined}
+        >
           {children}
         </Text>
       </Box>

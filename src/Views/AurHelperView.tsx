@@ -1,29 +1,14 @@
-import SelectInput from "ink-select-input";
 import { useState } from "react";
 import { UncontrolledTextInput } from "ink-text-input";
 import { useView, usePkgsFile } from "@/Contexts";
 import { Box, Text } from "ink";
+import { ListInput, ListInputItem } from "@/Components/ListInput";
 
 export const AurHelperView = () => {
   const { data, changeAurHelper } = usePkgsFile();
   const { changeView } = useView();
 
   const [changeHelperView, setChangeHelperView] = useState(false);
-
-  const selectionItems = [
-    {
-      label: "change on another",
-      value: () => setChangeHelperView(true),
-    },
-    {
-      label: "not install",
-      value: () => changeAurHelper(""),
-    },
-    {
-      label: "back",
-      value: () => changeView("start"),
-    },
-  ];
 
   const textIfExistAur = () => (
     <Text>
@@ -48,10 +33,14 @@ export const AurHelperView = () => {
         )}
       </Box>
       {!changeHelperView ? (
-        <SelectInput
-          items={selectionItems.map((v, i) => ({ ...v, key: i.toString() }))}
-          onSelect={(item) => item.value()}
-        />
+        <ListInput onExit={() => changeView("start")}>
+          <ListInputItem onEnter={() => setChangeHelperView(true)}>
+            change on another
+          </ListInputItem>
+          <ListInputItem onEnter={() => changeAurHelper("")}>
+            not install
+          </ListInputItem>
+        </ListInput>
       ) : (
         <UncontrolledTextInput
           placeholder="press `e` and enter to exit"

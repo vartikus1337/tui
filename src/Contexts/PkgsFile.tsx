@@ -9,7 +9,6 @@ export type PackageItem =
 
 interface PackagesFile {
   aurHelper: string;
-  PreInstallPkgs: PackageItem[];
   NiriPkgs: PackageItem[];
   SoundPkgs: PackageItem[];
   UtilsPkgs: PackageItem[];
@@ -19,6 +18,10 @@ type PkgsContextType = {
   data: PackagesFile;
   setData: React.Dispatch<React.SetStateAction<PackagesFile>>;
   changeAurHelper: (newHelper: string) => void;
+  toggleDisablePkg: (
+    section: "NiriPkgs" | "SoundPkgs" | "UtilsPkgs",
+    pkg: string,
+  ) => void;
 };
 
 const PkgsContext = createContext<PkgsContextType | undefined>(undefined);
@@ -30,8 +33,30 @@ export const PkgsProvider = ({ children }: { children: ReactNode }) => {
     setData((prev) => ({ ...prev, aurHelper: newHelper }));
   };
 
+  const toggleDisablePkg = (
+    section: "NiriPkgs" | "SoundPkgs" | "UtilsPkgs",
+    pkg: string,
+  ) => {
+    setData((prev) => {
+      const updated = prev[section].map((item) => {
+        if (typeof item === "string") {
+          return item === pkg ? { name: item, disabled: true } : item;
+        }
+        return item.name === pkg
+          ? item?.disabled
+            ? { ...item, disabled: false }
+            : { ...item, disabled: true }
+          : item;
+      });
+
+      return { ...prev, [section]: updated };
+    });
+  };
+
   return (
-    <PkgsContext.Provider value={{ data, setData, changeAurHelper }}>
+    <PkgsContext.Provider
+      value={{ data, setData, changeAurHelper, toggleDisablePkg }}
+    >
       {children}
     </PkgsContext.Provider>
   );
