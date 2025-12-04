@@ -1,7 +1,7 @@
 import { VoidNote } from "@/ASCII/VoidNote";
 import { Box } from "ink";
 import { PkgsProvider, ViewProvider, useView } from "./Contexts";
-import { AurHelperView, StartView } from "./Views";
+import { AurHelperView, SoundView, StartView } from "./Views";
 import { NiriView } from "./Views/NiriView";
 
 export const App = () => {
@@ -31,6 +31,8 @@ const AppContent = () => {
           <AurHelperView />
         ) : view === "NiriPkgs" ? (
           <NiriView />
+        ) : view === "SoundPkgs" ? (
+          <SoundView />
         ) : (
           <StartView />
         )}
