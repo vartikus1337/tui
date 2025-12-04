@@ -14,7 +14,9 @@ export const NiriView = () => {
       alignItems="center"
       gap={2}
     >
-      <Text color={"grey"}>press Tab to disable the package installation.</Text>
+      <Text color={"grey"}>
+        press Tab to disable the package installation, ESC to back
+      </Text>
       <ListInput onExit={() => changeView("start")}>
         {data.NiriPkgs.map((pkg) => (
           <ListInputItem

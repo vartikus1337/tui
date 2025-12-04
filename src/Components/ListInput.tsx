@@ -64,6 +64,12 @@ export const ListInput: FC<ListInput> = ({ children, onExit }) => {
       return;
     }
 
+    if (key.escape) {
+      onExit?.();
+      setLastKey("none");
+      return;
+    }
+
     if (key.tab) {
       setLastKey("tab");
       return;
